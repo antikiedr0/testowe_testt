@@ -1,11 +1,12 @@
-name: Run Tests on Pull Request
+name: Run Tests on Push
 
 on:
-  push:  # brak ograniczenia do konkretnej gałęzi -> działa dla każdej
+  push:
+    branches: [ main ]  # uruchamiaj tylko przy pushu na main (możesz usunąć, jeśli chcesz wszystkie gałęzie)
 
 jobs:
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # ✅ GitHub zapewnia maszynę do uruchomienia testów
 
     steps:
       - name: Checkout code
@@ -14,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'  # zmień na wersję, której używasz
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
@@ -23,7 +24,4 @@ jobs:
           pip install pytest
 
       - name: Run tests
-        run: pytest
-
-
-        
+        run: pytest -v
